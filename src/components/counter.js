@@ -1,5 +1,4 @@
 // http://localhost:3000/counter
-// Testing commit
 
 import * as React from 'react'
 
