@@ -51,11 +51,12 @@ test('omitting the password results in an error', async () => {
 })
 
 test('unknown server error displays the error message', async () => {
+  const testErrorMessage = 'Something went wrong'
   server.use(
     rest.post(
       'https://auth-provider.example.com/api/login',
       async (req, res, ctx) => {
-        return res(ctx.status(500), ctx.json({message: 'something is wrong'}))
+        return res(ctx.status(500), ctx.json({message: testErrorMessage}))
       },
     ),
   )
@@ -64,7 +65,5 @@ test('unknown server error displays the error message', async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
 
-  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
-    `"something is wrong"`,
-  )
+  expect(screen.getByRole('alert')).toHaveTextContent(testErrorMessage)
 })
